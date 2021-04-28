@@ -48,18 +48,33 @@ namespace Risk.Akka.Actors
                 game.RemovePlayerFromGame(msg.Player);
                 Context.ActorSelection(ActorNames.Path(Self.Path.Root.ToString(), ActorNames.IO)).Tell(new TooManyInvalidRequestsMessage(msg.Player));
             });
+
+            Receive<UserDisconnectedMessage>(msg =>
+            {
+                Log.Info($"Removing player {msg.ActorRef.Path.Name} from game...they disconnected from the server.");
+                game.RemovePlayerFromGame(msg.ActorRef);
+            });
         }
 
         private void StartOrRestartGame(string secretCode, GameStartOptions startOptions, IActorRef Sender)
         {
-            if (this.secretCode == secretCode)
+            if (this.secretCode != secretCode)
             {
-                Become(Deploying);
-                game.InitializeGame(startOptions);
-                game.StartGame();
-                Sender.Tell(new GameStartingMessage());
-                yourTurnToDeploy(game.CurrentPlayer);
+                Sender.Tell(new InvalidSecretCodeMessage());
+                return;
             }
+
+            if(game.Players.Count == 0)
+            {
+                Sender.Tell(new NotEnoughPlayersToStartGameMessage());
+                return;
+            }
+
+            Become(Deploying);
+            game.InitializeGame(startOptions);
+            game.StartGame();
+            Sender.Tell(new GameStartingMessage());
+            yourTurnToDeploy(game.CurrentPlayer);            
         }
 
         public void Deploying()
@@ -107,6 +122,12 @@ namespace Risk.Akka.Actors
                 game.RemovePlayerFromGame(msg.Player);
                 Context.ActorSelection(ActorNames.Path(Self.Path.Root.ToString(), ActorNames.IO)).Tell(new TooManyInvalidRequestsMessage(msg.Player));
                 game.NextPlayer();
+            });
+
+            Receive<UserDisconnectedMessage>(msg =>
+            {
+                Log.Info($"Removing player {msg.ActorRef.Path.Name} from game...they disconnected from the server.");
+                game.RemovePlayerFromGame(msg.ActorRef);
             });
         }
 
@@ -228,6 +249,12 @@ namespace Risk.Akka.Actors
                 game.RemovePlayerFromGame(msg.Player);
                 Context.ActorSelection(ActorNames.Path(Self.Path.Root.ToString(), ActorNames.IO)).Tell(new TooManyInvalidRequestsMessage(msg.Player));
             });
+
+            Receive<UserDisconnectedMessage>(msg =>
+            {
+                Log.Info($"Removing player {msg.ActorRef.Path.Name} from game...they disconnected from the server.");
+                game.RemovePlayerFromGame(msg.ActorRef);
+            });
         }
 
         public void GameOver()
@@ -245,6 +272,12 @@ namespace Risk.Akka.Actors
             {
                 game.Players.Add(msg.Actor);
                 game.AssignedNames.Add(msg.Actor, msg.AssignedName);
+            });
+
+            Receive<UserDisconnectedMessage>(msg =>
+            {
+                Log.Info($"Removing player {msg.ActorRef.Path.Name} from game...they disconnected from the server.");
+                game.RemovePlayerFromGame(msg.ActorRef);
             });
         }
 

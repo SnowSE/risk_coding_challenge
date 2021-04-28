@@ -34,6 +34,12 @@ namespace Risk.Server.Hubs
             await base.OnConnectedAsync();
         }
 
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            IOActor.Tell(new UserDisconnectedMessage(Context.ConnectionId));
+            return Task.CompletedTask;
+        }
+
         public async Task SendMessage(string user, string message)
         {
             await Clients.Client(user).SendMessage("Server", message);
@@ -66,33 +72,33 @@ namespace Risk.Server.Hubs
             await Clients.Client(connectionId).YourTurnToAttack(board.SerializableTerritories);
         }
 
-        public async Task StartGame(string Password, GameStartOptions startOptions)
+        public Task StartGame(string Password, GameStartOptions startOptions)
         {
-            await Task.CompletedTask;
             IOActor.Tell(new StartGameMessage(Password, startOptions));
+            return Task.CompletedTask;
         }
 
 
-        public async Task DeployRequest(Location l)
+        public Task DeployRequest(Location l)
         {
-            await Task.CompletedTask;
             logger.LogInformation("Received DeployRequest from {connectionId}", Context.ConnectionId);
 
             IOActor.Tell(new BridgeDeployMessage(l, Context.ConnectionId));
+            return Task.CompletedTask;
         }
 
-        public async Task AttackRequest(Location from, Location to)
+        public Task AttackRequest(Location from, Location to)
         {
-            await Task.FromResult(false);
             IOActor.Tell(new BridgeAttackMessage(to, from, Context.ConnectionId));
+            return Task.FromResult(false);
         }
 
         
 
-        public async Task AttackComplete()
+        public Task AttackComplete()
         {
-            await Task.FromResult(false);
             IOActor.Tell(new BridgeCeaseAttackingMessage(Context.ConnectionId));
+            return Task.FromResult(false);
         }
 
         public async Task SendGameOverAsync(GameStatus gameStatus)
@@ -124,10 +130,10 @@ namespace Risk.Server.Hubs
             await BroadCastMessage("Game has started");
         }
 
-        public async Task RestartGame(string password, GameStartOptions startOptions)
+        public Task RestartGame(string password, GameStartOptions startOptions)
         {
-            await Task.CompletedTask;
             IOActor.Tell(new BridgeRestartGameMessage(password, startOptions));
+            return Task.CompletedTask;
         }
     }
 }

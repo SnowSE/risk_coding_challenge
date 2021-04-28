@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Risk.Shared;
 using System;
 using System.Collections.Generic;
@@ -9,15 +10,27 @@ namespace Risk.Signalr.ConsoleClient
 {
     public class DefaultHostedPlayerLogic : HostedPlayerLogic
     {
-        public DefaultHostedPlayerLogic(IConfiguration configuration, IHostApplicationLifetime applicationLifetime) : base(configuration, applicationLifetime)
-        {
+        private readonly ILogger<HostedPlayerLogic> logger;
 
+        public DefaultHostedPlayerLogic(IConfiguration configuration, IHostApplicationLifetime applicationLifetime, ILogger<HostedPlayerLogic> logger)
+            : base(configuration, applicationLifetime, logger)
+        {
+            this.logger = logger;
         }
 
         public override Location WhereDoYouWantToDeploy(IEnumerable<BoardTerritory> board)
         {
-            var myTerritory = board.FirstOrDefault(t => t.OwnerName == MyPlayerName) ?? board.Skip(board.Count() / 2).First(t => t.OwnerName == null);
-            return myTerritory.Location;
+            logger.LogInformation($"Pondering where to deploy...{board.Count()} choices...");
+            
+            var myTerritory = board.FirstOrDefault(t => t.OwnerName == MyPlayerName);
+            logger.LogInformation($"My territory: {myTerritory?.ToString() ?? "[null]"}");
+
+            var nextFreeTerritory = board.First(t => t.OwnerName == null);
+            logger.LogInformation($"Next free territory: {nextFreeTerritory?.ToString() ?? "[null]"}");
+
+            var desiredDeployLocation = myTerritory ?? nextFreeTerritory;
+            logger.LogInformation($"I'm thinking of deploying to {desiredDeployLocation.Location}...");
+            return desiredDeployLocation.Location;
         }
 
         public override string MyPlayerName { get; set; } = "Default Player Logic";

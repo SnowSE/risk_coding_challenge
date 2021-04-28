@@ -11,6 +11,8 @@ namespace Risk.Akka
     public record CannotStartGameMessage;
     public record ConfirmPlayerSignup(string AssignedName);
     public record GameStartingMessage;
+    public record InvalidSecretCodeMessage;
+    public record NotEnoughPlayersToStartGameMessage;
     public record JoinGameMessage(string AssignedName, IActorRef Actor);
     public record JoinGameResponse(string AssignedName);
     public record TellUserJoinedMessage(string AssignedName, string ConnectionId);
@@ -37,6 +39,8 @@ namespace Risk.Akka
     public record BridgeRestartGameMessage(string Password, GameStartOptions StartOptions);
     public record RestartGameMessage(string SecretCode, GameStartOptions StartOptions);
     public record ResetInvalidRequestMessage();
-
-    
+    public record UserDisconnectedMessage(string ConnectionId)
+    {
+        public IActorRef ActorRef { get; internal set; }
+    }
 }

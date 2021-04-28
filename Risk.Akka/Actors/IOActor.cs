@@ -124,6 +124,11 @@ namespace Risk.Akka.Actors
             {
                 gameActor.Tell(new RestartGameMessage(msg.Password, msg.StartOptions));
             });
+
+            Receive<UserDisconnectedMessage>(msg =>
+            {
+                gameActor.Tell(msg with { ActorRef = players.FirstOrDefault(x => x.Value == msg.ConnectionId).Key }); ;
+            });
         }
 
         private string AssignName(string requestedName)
