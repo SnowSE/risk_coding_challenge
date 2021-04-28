@@ -141,12 +141,17 @@ namespace Risk.Game
             return territoryFrom.Owner == playerName(player) && territoryTo.Owner != playerName(player);
         }
 
+        //one problem, returning before you check all territories?
         public bool PlayerCanAttack(IActorRef player)
         {
             foreach (var territory in Board.Territories.Where(t => t.Owner == playerName(player) && EnoughArmiesToAttack(t)))
             {
                 var neighbors = Board.GetNeighbors(territory);
-                return neighbors.Any(n => n.Owner != playerName(player));
+                //return neighbors.Any(n => n.Owner != playerName(player));
+                if (neighbors.Any(n => n.Owner != playerName(player)))
+                {
+                    return true;
+                }
             }
             return false;
         }

@@ -13,18 +13,18 @@ if($stopExisting) {
 	get-process python* | stop-process
 }
 
-########################################
-write-host "Compiling risk server..."
-dotnet build Risk.Server
+ ########################################
+ write-host "Compiling risk server..."
+ dotnet build Risk.Server
 
-########################################
-write-host "Starting up risk server" -foregroundcolor green
-while((test-netconnection localhost -port $serverport -WarningAction SilentlyContinue).TcpTestSucceeded){
-	write-host "Port $serverport is in use, trying next port"
-	$serverport++
-}
-start-process dotnet -argumentlist "run","--project","./Risk.Server","--StartGameCode", $secretCode, "--urls", "http://localhost:$serverport"
-start-process "http://localhost:$serverport"
+ ########################################
+ write-host "Starting up risk server" -foregroundcolor green
+ while((test-netconnection localhost -port $serverport -WarningAction SilentlyContinue).TcpTestSucceeded){
+ 	write-host "Port $serverport is in use, trying next port"
+ 	$serverport++
+ }
+ start-process dotnet -argumentlist "run","--project","./Risk.Server","--StartGameCode", $secretCode, "--urls", "http://localhost:$serverport"
+ start-process "http://localhost:$serverport"
 
 if($numConsoleClients -gt 0) {
 	########################################

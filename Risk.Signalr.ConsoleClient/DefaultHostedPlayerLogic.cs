@@ -25,7 +25,7 @@ namespace Risk.Signalr.ConsoleClient
             var myTerritory = board.FirstOrDefault(t => t.OwnerName == MyPlayerName);
             logger.LogInformation($"My territory: {myTerritory?.ToString() ?? "[null]"}");
 
-            var nextFreeTerritory = board.First(t => t.OwnerName == null);
+            var nextFreeTerritory = board.FirstOrDefault(t => t.OwnerName == null);
             logger.LogInformation($"Next free territory: {nextFreeTerritory?.ToString() ?? "[null]"}");
 
             var desiredDeployLocation = myTerritory ?? nextFreeTerritory;
