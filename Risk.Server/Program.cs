@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Loki;
+
 
 namespace Risk.Server
 {
@@ -21,6 +19,15 @@ namespace Risk.Server
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+            .UseSerilog((context, loggerConfig) =>
+            {
+                loggerConfig.WriteTo.Console()
+                .Enrich.WithExceptionDetails()
+                .WriteTo.LokiHttp(() => new LokiSinkConfiguration
+                {
+                    LokiUrl = "http://loki:3100"
                 });
+            });
     }
 }
