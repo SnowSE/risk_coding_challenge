@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Prometheus;
 using Risk.Server.Hubs;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,10 @@ namespace Risk.Server
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //Prometheus
+            app.UseMetricServer();
+            app.UseHttpMetrics();S
 
             app.UseCors(builder =>
             {
