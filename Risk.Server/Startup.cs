@@ -78,7 +78,7 @@ namespace Risk.Server
 
             //Prometheus
             app.UseMetricServer();
-            app.UseHttpMetrics();S
+            app.UseHttpMetrics();
 
             app.UseCors(builder =>
             {
