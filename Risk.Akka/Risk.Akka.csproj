@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.5.1" />
+    <PackageReference Include="Akka" Version="1.5.4" />
     <PackageReference Include="Akka.Configuration" Version="1.0.5835.36887" />
     <PackageReference Include="Akka.Logger.Serilog" Version="1.5.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910" />

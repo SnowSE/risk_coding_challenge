@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Akka.Actor;
-using Akka.TestKit;
+﻿using Akka.Actor;
 using Akka.TestKit.NUnit3;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using Risk.Akka.Actors;
 using Risk.Shared;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading;
 
 namespace Risk.Akka.Test
 {
@@ -31,7 +28,7 @@ namespace Risk.Akka.Test
             //Arrange
             var gameActor = Sys.ActorOf(Props.Create(() => new GameActor("SecretCode")), ActorNames.Game);
 
-            //Act                
+            //Act
             gameActor.Tell(new StartGameMessage("BogusSecretCode", startOptions));
 
             //Assert
@@ -46,7 +43,7 @@ namespace Risk.Akka.Test
         {
             //Arrange
             var gameActor = Sys.ActorOf(Props.Create(() => new GameActor("SecretCode")), ActorNames.Game);
-            
+
             //Act
             gameActor.Tell(new StartGameMessage("SecretCode", startOptions));
 
@@ -97,7 +94,7 @@ namespace Risk.Akka.Test
             var signups = new List<(string assignedName, string connectionId)>();
             var mockBridge = new Mock<IRiskIOBridge>();
             mockBridge.Setup(m => m.JoinConfirmation(It.IsAny<string>(), It.IsAny<string>()))
-                .Callback<string,string>((assignedName, connectionId) =>
+                .Callback<string, string>((assignedName, connectionId) =>
                 {
                     signups.Add((assignedName, connectionId));
                 });
@@ -146,7 +143,7 @@ namespace Risk.Akka.Test
         [Test]
         public void SampleGameLifecycle()
         {
-            //arrange            
+            //arrange
             var gameActor = Sys.ActorOf(Props.Create(() => new GameActor("banana55")), ActorNames.Game);
             var mockBridge = new Mock<IRiskIOBridge>();
             var ioActor = Sys.ActorOf(Props.Create(() => new IOActor(mockBridge.Object)), ActorNames.IO);
@@ -160,7 +157,7 @@ namespace Risk.Akka.Test
                     TestContext.WriteLine($"{connectionId} deploying to {To}");
                     ioActor.Tell(new BridgeDeployMessage(To, connectionId));
                 });
-            mockBridge.Setup(m=>m.AskUserAttack(It.IsAny<string>(), It.IsAny<Board>()))
+            mockBridge.Setup(m => m.AskUserAttack(It.IsAny<string>(), It.IsAny<Board>()))
                 .Callback<string, Board>((connectionId, board) =>
                 {
                     var myPlayerName = $"Bogus{connectionId}";
@@ -172,7 +169,7 @@ namespace Risk.Akka.Test
                         var destination = myNeighbors.Where(t => t.OwnerName != myPlayerName).OrderBy(t => t.Armies).FirstOrDefault();
                         if (destination != null)
                         {
-                            TestContext.WriteLine($"{connectionId} attacking from {myTerritory.Location} to {destination.Location}");                            
+                            TestContext.WriteLine($"{connectionId} attacking from {myTerritory.Location} to {destination.Location}");
                             ioActor.Tell(new BridgeAttackMessage(myTerritory.Location, destination.Location, connectionId));
                             return;
                         }
@@ -190,12 +187,12 @@ namespace Risk.Akka.Test
             ioActor.Tell(new SignupMessage("Bogus3", "3"));
 
             //act
-            ioActor.Tell(new StartGameMessage("banana55", new GameStartOptions 
-            { 
-                Height = 5, 
-                Width = 5, 
-                ArmiesDeployedPerTurn = 10, 
-                StartingArmiesPerPlayer = 5 
+            ioActor.Tell(new StartGameMessage("banana55", new GameStartOptions
+            {
+                Height = 5,
+                Width = 5,
+                ArmiesDeployedPerTurn = 10,
+                StartingArmiesPerPlayer = 5
             }));
 
             if (Debugger.IsAttached)
