@@ -80,7 +80,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ServerAddress = config["serverAddress"] ?? "localhost:5000";
+        ServerAddress = config["serverAddress"] ?? "localhost:80";
         if (config["alwaysUseFreshSecretCode"] != "true")
         {
             secretCode = "banana55";

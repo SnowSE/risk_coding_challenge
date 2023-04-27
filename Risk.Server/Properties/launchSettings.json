@@ -18,9 +18,10 @@
       "applicationUrl": "http://localhost:5000"
     },
     "Docker": {
-      "commandName": "Docker",
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true
+        "commandName": "Docker",
+        "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+        "serverAddress": "{ServiceHost}:{ServicePort}",
+        "publishAllPorts": true
     }
   }
 }
