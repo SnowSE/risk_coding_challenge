@@ -1,17 +1,11 @@
 using MatBlazor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
 using Risk.Server.Hubs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Risk.Server
 {
@@ -57,7 +51,8 @@ namespace Risk.Server
                     Configuration["StartGameCode"],
                     services.GetService<RiskBridge>()
                     ));
-            } catch
+            }
+            catch
             {
                 throw;
             }
@@ -70,7 +65,7 @@ namespace Risk.Server
             //Path base is needed for running behind a reverse proxy, otherwise the app will not be able to find the static files
             var pathBase = Configuration["PATH_BASE"];
             app.UsePathBase(pathBase);
-    
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
