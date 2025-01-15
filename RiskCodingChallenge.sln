@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Risk.Akka.Test", "Risk.Akka
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Risk.Akka", "Risk.Akka\Risk.Akka.csproj", "{FF4334F3-72DB-4594-81E1-226C10C84AA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Risk.Signalr.CS1400Client", "Risk.Signalr.CS1400Client\Risk.Signalr.CS1400Client.csproj", "{6C3505CE-32CC-4FD0-ACEA-5B857E094260}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{FF4334F3-72DB-4594-81E1-226C10C84AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF4334F3-72DB-4594-81E1-226C10C84AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF4334F3-72DB-4594-81E1-226C10C84AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3505CE-32CC-4FD0-ACEA-5B857E094260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3505CE-32CC-4FD0-ACEA-5B857E094260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3505CE-32CC-4FD0-ACEA-5B857E094260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3505CE-32CC-4FD0-ACEA-5B857E094260}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

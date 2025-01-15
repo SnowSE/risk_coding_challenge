@@ -34,7 +34,7 @@ namespace Risk.Akka.Test
             //Assert
             AwaitAssert(() =>
             {
-                Assert.NotNull(ExpectMsg<InvalidSecretCodeMessage>());
+                Assert.That(ExpectMsg<InvalidSecretCodeMessage>() != null);
             });
         }
 
@@ -51,7 +51,7 @@ namespace Risk.Akka.Test
             AwaitAssert(() =>
             {
                 //by this point the secret code has been validated...we just don't have players.
-                Assert.NotNull(ExpectMsg<NotEnoughPlayersToStartGameMessage>());
+                Assert.That(ExpectMsg<NotEnoughPlayersToStartGameMessage>() != null);
             });
         }
 

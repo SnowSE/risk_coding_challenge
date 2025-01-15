@@ -1,32 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="risk.akka.hocon" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="Startup.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.5.4" />
-    <PackageReference Include="Akka.Configuration" Version="1.0.5835.36887" />
-    <PackageReference Include="Akka.Logger.Serilog" Version="1.5.0.1" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00910" />
+    <PackageReference Include="Akka" Version="1.5.34" />
+    <PackageReference Include="Akka.Logger.Serilog" Version="1.5.25" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Risk.Shared\Risk.Shared.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Resource Include="risk.akka.hocon" />
   </ItemGroup>
-
 </Project>

@@ -1,34 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <UserSecretsId>7eb0262b-6786-4cc8-9a24-b50dca3788a2</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
-
-
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.5.4" />
-    <PackageReference Include="Akka.Logger.Serilog" Version="1.5.0.1" />
+    <PackageReference Include="Akka" Version="1.5.34" />
+    <PackageReference Include="Akka.Logger.Serilog" Version="1.5.25" />
     <PackageReference Include="MatBlazor" Version="2.10.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.16" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
-    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.1.1-dev-00295" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
     <PackageReference Include="Serilog.Sinks.Loki" Version="4.0.0-beta3" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Risk.Akka\Risk.Akka.csproj" />
     <ProjectReference Include="..\Risk.Shared\Risk.Shared.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="risk.akka.hocon">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>
