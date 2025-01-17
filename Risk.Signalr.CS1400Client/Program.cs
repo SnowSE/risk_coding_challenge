@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Risk.Signalr.CS1400Client
 {
@@ -78,7 +79,12 @@ namespace Risk.Signalr.CS1400Client
             Console.WriteLine("My connection id is " + hubConnection.ConnectionId);
             await SignupAsync(playerName);
             // just wait ....
+            while(true)
+            {
+                Thread.Sleep(1000);
+            }
             Console.ReadLine();
+            
         }
 
         static async Task SignupAsync(string playerName)
